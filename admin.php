@@ -1,48 +1,49 @@
 ﻿
 <?php
 ob_start();
-//session_start();
+session_start();
 define('DIR_APPLICATION', str_replace('\'', '/', realpath(dirname(__FILE__))) . '/');
 
 include(DIR_APPLICATION."config.php");
 $msg = 'none';
 $sql = '';
 
-if(isset($_POST['email']) && $_POST['email'] != '' && isset($_POST['pass']) && $_POST['pass'] != '')
+if(isset($_POST['username']) && $_POST['username'] != '' && isset($_POST['pass']) && $_POST['pass'] != '')
 {
-	
-		$sql= mysqli_query("SELECT * FROM tbl_admin aa WHERE aa.username = '".make_safe($_POST['email'])."' and aa.passwd = '".make_safe($_POST['pass'])."'",$link);
 
+		$sql= mysqli_query($link, "SELECT * FROM tbl_admin aa WHERE aa.username = '".make_safe($_POST['username'])."' and aa.passwd = '".make_safe($_POST['pass'])."'");
 
 	if($row = mysqli_fetch_array($sql)){
 		//here success
-		
+		          
+            
 			$arr = array(
-				'user_id'		=> $row['user_id'],
-				'name'			=> $row['name'],
-				'email'			=> $row['email'],
-				'password'		=> $row['password']
+				'username'	=> $row['username'],
+				'pass'  => $row['passwd']
 			);
 
-			//$_SESSION['objLogin'] = $arr;
+
+			$_SESSION['objLogin'] = $arr;  
+
+            header("Location: index.html");
 		}
-		else{
-			//$_SESSION['objLogin'] = $row;
+		
+        else{
+			$_SESSION['objLogin'] = $row;
 		}
 
-			header("Location: dashboard.php");
-			die();
-	}
-	else{
-		$msg = 'block';
-	}
-
+}
+else
+{
+        $msg = 'block';
+    }
 
 function make_safe($variable)
 {
-   $variable = strip_tags(mysql_real_escape_string(trim($variable)));
+   $variable = strip_tags($variable);
    return $variable;
 }
+
 ?>
 
 
@@ -77,13 +78,13 @@ function make_safe($variable)
                     <img src="images/img-01.png" alt="IMG">
                 </div>
 
-                <form class="login100-form validate-form">
+                <form class="login100-form validate-form" role="form" id="form" method="post">
                     <span class="login100-form-title">
                         Yönetici Girişi
                     </span>
 
-                    <div class="wrap-input100 validate-input" data-validate="Email zorunlu tipi: ex@abc.xyz">
-                        <input class="input100" type="text" name="email" placeholder="Email">
+                    <div class="wrap-input100 validate-input" data-validate="Kullanıcı Adı Zorunlu">
+                        <input class="input100" type="text" name="username" placeholder="Kullanıcı Adı">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -99,7 +100,7 @@ function make_safe($variable)
                     </div>
 
                     <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
+                        <button class="login100-form-btn" type= "submit" id="login">
                             Giriş
                         </button>
                     </div>
@@ -138,27 +139,6 @@ function make_safe($variable)
     </script>
     <!--===============================================================================================-->
     <script src="js/main2.js"></script>
-<script type="text/javascript">
 
-function validationForm(){
-	if($("#email").val() == ''){
-		alert("Username Required !!!");
-		$("#username").focus();
-		return false;
-	}
-	
-	else if($("#pass").val() == ''){
-		alert("Password Required !!!");
-		$("#password").focus();
-		return false;
-	}
-	else{
-		return true;
-	}
-}
-
-
-
-</script>
 </body>
 </html>
