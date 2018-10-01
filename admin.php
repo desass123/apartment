@@ -22,21 +22,19 @@ if(isset($_POST['username']) && $_POST['username'] != '' && isset($_POST['pass']
 				'pass'  => $row['passwd']
 			);
 
-
+   
 			$_SESSION['objLogin'] = $arr;  
 
-            header("Location: index.html");
+         header("Location: index.html");
 		}
 		
         else{
+        $msg = 'block';
 			$_SESSION['objLogin'] = $row;
 		}
 
 }
-else
-{
-        $msg = 'block';
-    }
+
 
 function make_safe($variable)
 {
@@ -77,12 +75,12 @@ function make_safe($variable)
                 <div class="login100-pic js-tilt" data-tilt>
                     <img src="images/img-01.png" alt="IMG">
                 </div>
-
+               
                 <form class="login100-form validate-form" role="form" id="form" method="post">
                     <span class="login100-form-title">
                         Yönetici Girişi
                     </span>
-
+                     <div style="margin-bottom:8px;padding-top:2px;width:100%;height:25px;background:#E52740;color:#fff; display:<?php echo $msg; ?>" align="center">Wrong login information</div>
                     <div class="wrap-input100 validate-input" data-validate="Kullanıcı Adı Zorunlu">
                         <input class="input100" type="text" name="username" placeholder="Kullanıcı Adı">
                         <span class="focus-input100"></span>

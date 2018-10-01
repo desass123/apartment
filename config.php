@@ -4,7 +4,7 @@ define('WEB_URL', 'http://127.0.0.1/site/');
 define('ROOT_PATH', 'C:\wamp\www\site/');
 
 
-define('DB_HOSTNAME', '127.0.0.1');
+define('DB_HOSTNAME', '127.0.0.1:3308');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 define('DB_DATABASE', 'akal');
